@@ -1,5 +1,10 @@
 var http = require('http');
-var url = require('url');
+var parse = require('url').parse;
+var join = require('path').join;
+var fs = require('fs');
+var root = __dirname;
+var qs = require('querystring');
+
 var items = [];
 
 var server = http.createServer(function(req, res) {
@@ -17,9 +22,11 @@ var server = http.createServer(function(req, res) {
 			break;
 
 		case 'GET': 
+			res.write('<ul>');
 			items.forEach(function(item, ii) {
-				res.write(ii + '. ' + item + '\n');
+				res.write('<li>' + ii + ': ' + item + '</li>');
 			});
+			res.write('</ul>');
 			res.end();
 			break;
 
