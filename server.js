@@ -1,3 +1,11 @@
+/* 
+	1. Listen on port 9000
+	2. Base response on request method
+		1. GET
+		2. POST
+		3. PUT
+		4. DELETE
+*/
 var http = require('http');
 var parse = require('url').parse;
 var join = require('path').join;
