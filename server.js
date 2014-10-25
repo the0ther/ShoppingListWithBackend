@@ -22,11 +22,15 @@ var server = http.createServer(function(req, res) {
 			break;
 
 		case 'GET': 
-			res.write('<ul>');
-			items.forEach(function(item, ii) {
-				res.write('<li>' + ii + ': ' + item + '</li>');
-			});
-			res.write('</ul>');
+			res.write('<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <title>Shopping List</title> </head> <body> <form action="/" method="post"> <input type="text" name="item" placeholder="Enter an item"> <button>Add Item</button> </form>'); 
+			if (items.length) {
+				res.write('<ul>');
+				items.forEach(function(item, ii) {
+					res.write('<li>' + ii + ': ' + item + '</li>');
+				});
+				res.write('</ul>');				
+			}
+			res.write('</body> </html>');
 			res.end();
 			break;
 
