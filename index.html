@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8">
-   <title>Shopping List</title>
+	<meta charset="UTF-8">
+	<title>Shopping List</title>
 </head>
 <body>
-   <form action="/" method="post">
-      <input type="text" name="item" placeholder="Enter an item">
-      <button>Add Item</button>
-   </form>
+	<div id="container">
+		<form action="/" method="post">
+			<input type="text" name="item" placeholder="Enter an item">
+			<button>Add Item</button>
+		</form>
+		<ul id="list"></ul>
+	</div>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="app.js"></script>
 </body>
 </html>

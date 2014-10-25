@@ -17,21 +17,43 @@ var server = http.createServer(function(req, res) {
 			});
 			req.on('end', function() {
 				items.push(item);
-				res.end('Item added\n');
+				res.statusCode = 200;
+				res.end();
 			});
 			break;
 
 		case 'GET': 
-			res.write('<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <title>Shopping List</title> </head> <body> <form action="/" method="post"> <input type="text" name="item" placeholder="Enter an item"> <button>Add Item</button> </form>'); 
-			if (items.length) {
-				res.write('<ul>');
-				items.forEach(function(item, ii) {
-					res.write('<li>' + ii + ': ' + item + '</li>');
-				});
-				res.write('</ul>');				
+			if (req.url === "/") {
+				req.url = "index.html";
+			} else if (req.url === '/items') {
+				res.write(JSON.stringify(items));
+				res.end();
+				break;
 			}
-			res.write('</body> </html>');
-			res.end();
+
+			var url = parse(req.url);
+			var path = join(root, url.pathname);
+
+			fs.stat(path, function (err, stat) {
+				if (err) {
+					if (err.code === 'ENOENT') {
+						res.statusCode = 404;
+						res.end('File Not Found');
+					} else {
+						res.statusCode = 500;
+						res.end('Internal Server Error');
+					}
+				}	else {
+		      var stream = fs.createReadStream(path);
+		      // res.setHeader('Content-Length', stat.size);
+		      stream.pipe(res);
+		      stream.on('error', function (err) {
+		          res.statusCode = 500;
+		          res.end('Internal Server Error');
+		      });
+				}	
+			});
+
 			break;
 
 		case 'DELETE': 
